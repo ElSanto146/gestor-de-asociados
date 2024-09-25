@@ -13,11 +13,9 @@ import javax.persistence.Table;
 public class Matriculado implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    private int matricula;
     private String nombre;
     private String apellido;
-    private String matricula;
     private String categoria;
     private String direccion;
     private String localidad;
@@ -25,13 +23,12 @@ public class Matriculado implements Serializable {
     private String observaciones;
 
     public Matriculado() {
-    }
+    }  
 
-    public Matriculado(int id, String nombre, String apellido, String matricula, String categoria, String direccion, String localidad, String telefono, String observaciones) {
-        this.id = id;
+    public Matriculado(int matricula, String nombre, String apellido, String categoria, String direccion, String localidad, String telefono, String observaciones) {
+        this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.matricula = matricula;
         this.categoria = categoria;
         this.direccion = direccion;
         this.localidad = localidad;
@@ -39,12 +36,12 @@ public class Matriculado implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public int getId() {
-        return id;
+    public int getMatricula() {
+        return matricula;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMatricula(int matricula) {
+        this.matricula = matricula;
     }
 
     public String getNombre() {
@@ -61,14 +58,6 @@ public class Matriculado implements Serializable {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
     }
 
     public String getCategoria() {
@@ -109,42 +98,5 @@ public class Matriculado implements Serializable {
 
     public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
-    }
-
-    @Override
-    public String toString() {
-        return "Matriculado{" + "nombre=" + nombre + ", apellido=" + apellido + ", matricula=" + matricula + ", categoria=" + categoria + ", direccion=" + direccion + ", localidad=" + localidad + ", telefono=" + telefono + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 47 * hash + Objects.hashCode(this.nombre);
-        hash = 47 * hash + Objects.hashCode(this.apellido);
-        hash = 47 * hash + Objects.hashCode(this.matricula);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Matriculado other = (Matriculado) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.apellido, other.apellido)) {
-            return false;
-        }
-        return Objects.equals(this.matricula, other.matricula);
-    }
-    
-       
+    }    
 }

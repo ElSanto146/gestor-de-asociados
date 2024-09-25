@@ -2,6 +2,7 @@ package com.carlos.lectorpdf.persistencia;
 
 import com.carlos.lectorpdf.logica.Matriculado;
 import com.carlos.lectorpdf.persistencia.exceptions.NonexistentEntityException;
+import com.carlos.lectorpdf.persistencia.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,15 +14,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 
-
 public class MatriculadoJpaController implements Serializable {
 
     public MatriculadoJpaController(EntityManagerFactory emf) {
-        this.emf = emf; 
+        this.emf = emf;
     }
     
     public MatriculadoJpaController() {
-        emf = Persistence.createEntityManagerFactory("LectorPdfPU");
+        emf = Persistence.createEntityManagerFactory("GestorDeAsociadosPU");
     }
     
     private EntityManagerFactory emf = null;
@@ -30,13 +30,18 @@ public class MatriculadoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Matriculado matriculado) {
+    public void create(Matriculado matriculado) throws PreexistingEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.persist(matriculado);
             em.getTransaction().commit();
+        } catch (Exception ex) {
+            if (findMatriculado(matriculado.getMatricula()) != null) {
+                throw new PreexistingEntityException("Matriculado " + matriculado + " already exists.", ex);
+            }
+            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -54,7 +59,7 @@ public class MatriculadoJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                int id = matriculado.getId();
+                int id = matriculado.getMatricula();
                 if (findMatriculado(id) == null) {
                     throw new NonexistentEntityException("The matriculado with id " + id + " no longer exists.");
                 }
@@ -75,7 +80,7 @@ public class MatriculadoJpaController implements Serializable {
             Matriculado matriculado;
             try {
                 matriculado = em.getReference(Matriculado.class, id);
-                matriculado.getId();
+                matriculado.getMatricula();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The matriculado with id " + id + " no longer exists.", enfe);
             }

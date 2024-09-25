@@ -167,7 +167,7 @@ public class VerAsociados extends javax.swing.JFrame {
 
     //Evento de Ventana. Cuando abre la ventana inicia el método cargarTabla()
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        cargarTabla();
+//        cargarTabla();
     }//GEN-LAST:event_formWindowOpened
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -177,11 +177,11 @@ public class VerAsociados extends javax.swing.JFrame {
             if (tablaMatriculados.getSelectedRow()!=-1) {
                 //convertimos a string el objeto que traemos desde la fila seleccionada y la columna 0, luego lo parseamos
                 int id_matri = Integer.parseInt(String.valueOf(tablaMatriculados.getValueAt(tablaMatriculados.getSelectedRow(),0)));
-                control.eliminar(id_matri); 
+//                control.eliminar(id_matri); 
                 //aviso al usuario que borró correctamente
                 cartel("Se eliminó con éxito", "info", "Eliminación exitosa");
                 //Vuelve a cargar la tabla sin el regristro eliminado
-                cargarTabla();
+//                cargarTabla();
             }
             else{
                 //aviso al usuario que error al borrar
@@ -240,42 +240,42 @@ public class VerAsociados extends javax.swing.JFrame {
     private javax.swing.JTable tablaMatriculados;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarTabla() {
-        //Definir el modelo que queremos que tenga la tabla
-        DefaultTableModel Modelotabla = new DefaultTableModel(){
-            //Parámetro para que filas y col no sean editables
-            @Override
-            public boolean isCellEditable (int row, int column){
-                return false;
-            }
-        };//Todo esto es la instancia de la Tabla
-        
-        //Establecemos los nombres de los encabezados de las columnas
-        String titulos[]={"Registro", "Apellido", "Nombre", "Matrícula", "Categoría", 
-            "Dirección", "Localidad", "Teléfono", "Observaciones" };
-        Modelotabla.setColumnIdentifiers(titulos);
-        
-        //Carga de los datos desde la base de datos. Los guardamos en una lista
-        List<Matriculado> listaMatriculados = control.traerMatriculados();
-        
-        //Recorrer la lista y mostrar cada uno de los objetos en la tabla
-        //Con un if chequeamos que la lista no esté vacía
-        if (listaMatriculados!=null) {
-            for (Matriculado matri : listaMatriculados) {
-                //Crear un Array de tipo objeto
-                Object[] mascota = {matri.getId(), matri.getApellido(), matri.getNombre(), matri.getMatricula(),
-                matri.getCategoria(), matri.getDireccion(), matri.getLocalidad(), matri.getTelefono(),
-                matri.getObservaciones()};
-                
-                //Agregar la fila a la tabla seteada con cada mascota
-                Modelotabla.addRow(mascota);
-            }
-        } else {
-            cartel("No hay datos que mostrar\nPor favor Carga un Asociado", "info", "No hay nada que mostrar");
-        }
-        //Agregar el modelo de la tabla a la variable Tabla. para que se haga visible
-        tablaMatriculados.setModel(Modelotabla);
-    }
+//    private void cargarTabla() {
+//        //Definir el modelo que queremos que tenga la tabla
+//        DefaultTableModel Modelotabla = new DefaultTableModel(){
+//            //Parámetro para que filas y col no sean editables
+//            @Override
+//            public boolean isCellEditable (int row, int column){
+//                return false;
+//            }
+//        };//Todo esto es la instancia de la Tabla
+//        
+//        //Establecemos los nombres de los encabezados de las columnas
+//        String titulos[]={"Registro", "Apellido", "Nombre", "Matrícula", "Categoría", 
+//            "Dirección", "Localidad", "Teléfono", "Observaciones" };
+//        Modelotabla.setColumnIdentifiers(titulos);
+//        
+//        //Carga de los datos desde la base de datos. Los guardamos en una lista
+//        List<Matriculado> listaMatriculados = control.traerMatriculados();
+//        
+//        //Recorrer la lista y mostrar cada uno de los objetos en la tabla
+//        //Con un if chequeamos que la lista no esté vacía
+//        if (listaMatriculados!=null) {
+//            for (Matriculado matri : listaMatriculados) {
+//                //Crear un Array de tipo objeto
+//                Object[] mascota = {matri.getId(), matri.getApellido(), matri.getNombre(), matri.getMatricula(),
+//                matri.getCategoria(), matri.getDireccion(), matri.getLocalidad(), matri.getTelefono(),
+//                matri.getObservaciones()};
+//                
+//                //Agregar la fila a la tabla seteada con cada mascota
+//                Modelotabla.addRow(mascota);
+//            }
+//        } else {
+//            cartel("No hay datos que mostrar\nPor favor Carga un Asociado", "info", "No hay nada que mostrar");
+//        }
+//        //Agregar el modelo de la tabla a la variable Tabla. para que se haga visible
+//        tablaMatriculados.setModel(Modelotabla);
+//    }
     
     private void cartel(String mensaje, String tipo, String titulo){
         JOptionPane optionPane = new JOptionPane(mensaje);

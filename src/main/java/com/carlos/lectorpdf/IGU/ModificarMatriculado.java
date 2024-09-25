@@ -14,7 +14,7 @@ public class ModificarMatriculado extends javax.swing.JFrame {
     public ModificarMatriculado(int id_matri) {
         control = new Controladora();
         initComponents();
-        cargarForm(id_matri);
+//        cargarForm(id_matri);
     }
 
     @SuppressWarnings("unchecked")
@@ -336,25 +336,25 @@ public class ModificarMatriculado extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarForm(int id_matri) {
-        this.matri = control.buscarMatriculado(id_matri);
-        
-        txtApellido.setText(matri.getApellido());
-        txtNombre.setText(matri.getNombre());
-        txtMatricula.setText(matri.getMatricula());
-        txtDireccion.setText(matri.getDireccion());
-        txtLocalidad.setText(matri.getLocalidad());
-        txtTelefono.setText(matri.getTelefono());
-        txtObservaciones.setText(matri.getObservaciones());
-        
-        if (matri.getCategoria().equals("1°")) {
-            cmbCategoria.setSelectedIndex(0);
-        } else if (matri.getCategoria().equals("2°")) {
-            cmbCategoria.setSelectedIndex(1);
-        } else if (matri.getCategoria().equals("3°")) {
-            cmbCategoria.setSelectedIndex(2);
-        }        
-    }
+//    private void cargarForm(int id_matri) {
+//        this.matri = control.buscarMatriculado(id_matri);
+//        
+//        txtApellido.setText(matri.getApellido());
+//        txtNombre.setText(matri.getNombre());
+//        txtMatricula.setText(matri.getMatricula());
+//        txtDireccion.setText(matri.getDireccion());
+//        txtLocalidad.setText(matri.getLocalidad());
+//        txtTelefono.setText(matri.getTelefono());
+//        txtObservaciones.setText(matri.getObservaciones());
+//        
+//        if (matri.getCategoria().equals("1°")) {
+//            cmbCategoria.setSelectedIndex(0);
+//        } else if (matri.getCategoria().equals("2°")) {
+//            cmbCategoria.setSelectedIndex(1);
+//        } else if (matri.getCategoria().equals("3°")) {
+//            cmbCategoria.setSelectedIndex(2);
+//        }        
+//    }
     
     private void cartel(String mensaje, String tipo, String titulo) {
         JOptionPane optionPane = new JOptionPane(mensaje);

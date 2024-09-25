@@ -1,5 +1,6 @@
 com\carlos\lectorpdf\logica\Matriculado.class
 com\carlos\lectorpdf\IGU\VerAsociados$1.class
+com\carlos\lectorpdf\IGU\CargarMatriculado$5.class
 com\carlos\lectorpdf\IGU\Principal$1.class
 com\carlos\lectorpdf\IGU\VerAsociados$3.class
 com\carlos\lectorpdf\IGU\VerAsociados.class
@@ -8,11 +9,11 @@ com\carlos\lectorpdf\IGU\CargarMatriculado$3.class
 com\carlos\lectorpdf\IGU\ModificarMatriculado$2.class
 com\carlos\lectorpdf\IGU\CargaRecorridos$2.class
 com\carlos\lectorpdf\IGU\Principal$3.class
-com\carlos\lectorpdf\IGU\VerAsociados$5.class
 com\carlos\lectorpdf\IGU\CargarMatriculado$1.class
 com\carlos\lectorpdf\IGU\ModificarMatriculado.class
 com\carlos\lectorpdf\IGU\CargarMatriculado.class
 com\carlos\lectorpdf\persistencia\ControladoraPersistencia.class
+com\carlos\lectorpdf\IGU\CargarMatriculado$6.class
 com\carlos\lectorpdf\logica\Controladora.class
 com\carlos\lectorpdf\IGU\VerAsociados$2.class
 com\carlos\lectorpdf\persistencia\exceptions\IllegalOrphanException.class
@@ -20,6 +21,7 @@ com\carlos\lectorpdf\IGU\CargaRecorridos$4.class
 com\carlos\lectorpdf\persistencia\exceptions\NonexistentEntityException.class
 com\carlos\lectorpdf\IGU\Principal$2.class
 com\carlos\lectorpdf\IGU\CargaRecorridos$1.class
+com\carlos\lectorpdf\IGU\CargarMatriculado$4.class
 com\carlos\lectorpdf\IGU\VerAsociados$4.class
 com\carlos\lectorpdf\IGU\CargaRecorridos.class
 com\carlos\lectorpdf\IGU\Principal$4.class
