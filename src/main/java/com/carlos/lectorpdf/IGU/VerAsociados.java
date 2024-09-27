@@ -1,6 +1,5 @@
 package com.carlos.lectorpdf.IGU;
 
-
 import com.carlos.lectorpdf.logica.Controladora;
 import com.carlos.lectorpdf.logica.Matriculado;
 import java.util.List;
@@ -8,20 +7,22 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
-
 public class VerAsociados extends javax.swing.JFrame {
-    
+
     //Instancia global
-    Controladora control;
+    Controladora control = new Controladora();
+    private int indiceFila = -1;
 
-
+    //int indiceFila;
     public VerAsociados() {
-        //inicia una nueva instancia de la controladora cuando inicia VerDatos
-        control = new Controladora();
         initComponents();
     }
 
+    public VerAsociados(int indiceFila) {
+        initComponents();
+        this.indiceFila = indiceFila;
+        indiceFila--;
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -134,11 +135,11 @@ public class VerAsociados extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -167,53 +168,61 @@ public class VerAsociados extends javax.swing.JFrame {
 
     //Evento de Ventana. Cuando abre la ventana inicia el método cargarTabla()
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-//        cargarTabla();
+        //Para resaltar una fila de la tabla
+        if (indiceFila > 0) {
+            cargarTabla();
+            tablaMatriculados.setRowSelectionInterval(indiceFila, indiceFila);
+        } else {
+            cargarTabla();
+        }
+
+
     }//GEN-LAST:event_formWindowOpened
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         //Controlamos que la tabla no esté vacia. Cuenta la cantidad de filas
-        if (tablaMatriculados.getRowCount()>0) {
+        if (tablaMatriculados.getRowCount() > 0) {
             //Controlamos que haya una fila seleccionada
-            if (tablaMatriculados.getSelectedRow()!=-1) {
+            if (tablaMatriculados.getSelectedRow() != -1) {
                 //convertimos a string el objeto que traemos desde la fila seleccionada y la columna 0, luego lo parseamos
-                int id_matri = Integer.parseInt(String.valueOf(tablaMatriculados.getValueAt(tablaMatriculados.getSelectedRow(),0)));
-//                control.eliminar(id_matri); 
+                int id_matri = Integer.parseInt(String.valueOf(tablaMatriculados.getValueAt(tablaMatriculados.getSelectedRow(), 2)));
+                control.eliminar(id_matri);
                 //aviso al usuario que borró correctamente
                 cartel("Se eliminó con éxito", "info", "Eliminación exitosa");
                 //Vuelve a cargar la tabla sin el regristro eliminado
-//                cargarTabla();
-            }
-            else{
-                //aviso al usuario que error al borrar
+                cargarTabla();
+            } else {
+                //aviso al usuario error al borrar
                 cartel("Selecciona un regristro para eliminar", "", "Error al Eliminar");
-            }            
-        } 
-        else{
-            //aviso al usuario que error al borrar
+            }
+        } else {
+            //aviso al usuario error al borrar
             cartel("La tabla está vacía", "", "Error al Eliminar");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 
-         //Controlamos que la tabla no esté vacia. Cuenta la cantidad de filas
-        if (tablaMatriculados.getRowCount()>0) {
+        //Controlamos que la tabla no esté vacia. Cuenta la cantidad de filas
+        if (tablaMatriculados.getRowCount() > 0) {
             //Controlamos que haya una fila seleccionada
-            if (tablaMatriculados.getSelectedRow()!=-1) {
+            if (tablaMatriculados.getSelectedRow() != -1) {
                 //convertimos a string el objeto que traemos desde la fila seleccionada y la columna 0, luego lo parseamos
-                int id_matri = Integer.parseInt(String.valueOf(tablaMatriculados.getValueAt(tablaMatriculados.getSelectedRow(),0)));
-                 
-                //Abre la pantalla de Modificar datos y le pasamos el id de la fila seleccionada
-                ModificarMatriculado pantallaModif = new ModificarMatriculado(id_matri);
+                int id_matri = Integer.parseInt(String.valueOf(tablaMatriculados.getValueAt(tablaMatriculados.getSelectedRow(), 2)));
+                //Guardamos el índice de la fila seleccionada
+                int indiceFila = tablaMatriculados.getSelectedRow();
+
+                //Abre la pantalla de Modificar datos y le pasamos el id y el índice de la fila seleccionada
+                ModificarMatriculado pantallaModif = new ModificarMatriculado(id_matri, indiceFila);
                 pantallaModif.setVisible(true);
                 pantallaModif.setLocationRelativeTo(null);
-            }
-            else{
+                this.dispose();
+
+            } else {
                 //aviso al usuario que error al modificar
                 cartel("Selecciona un matriculado para modificar", "", "Error al Modificar");
-            }            
-        } 
-        else{
+            }
+        } else {
             //aviso al usuario que error al modificar
             cartel("Tabla Vacía.\nNo hay matriculados para modificar", "", "Error al Modificar");
         }
@@ -225,7 +234,6 @@ public class VerAsociados extends javax.swing.JFrame {
         panta.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -240,53 +248,53 @@ public class VerAsociados extends javax.swing.JFrame {
     private javax.swing.JTable tablaMatriculados;
     // End of variables declaration//GEN-END:variables
 
-//    private void cargarTabla() {
-//        //Definir el modelo que queremos que tenga la tabla
-//        DefaultTableModel Modelotabla = new DefaultTableModel(){
-//            //Parámetro para que filas y col no sean editables
-//            @Override
-//            public boolean isCellEditable (int row, int column){
-//                return false;
-//            }
-//        };//Todo esto es la instancia de la Tabla
-//        
-//        //Establecemos los nombres de los encabezados de las columnas
-//        String titulos[]={"Registro", "Apellido", "Nombre", "Matrícula", "Categoría", 
-//            "Dirección", "Localidad", "Teléfono", "Observaciones" };
-//        Modelotabla.setColumnIdentifiers(titulos);
-//        
-//        //Carga de los datos desde la base de datos. Los guardamos en una lista
-//        List<Matriculado> listaMatriculados = control.traerMatriculados();
-//        
-//        //Recorrer la lista y mostrar cada uno de los objetos en la tabla
-//        //Con un if chequeamos que la lista no esté vacía
-//        if (listaMatriculados!=null) {
-//            for (Matriculado matri : listaMatriculados) {
-//                //Crear un Array de tipo objeto
-//                Object[] mascota = {matri.getId(), matri.getApellido(), matri.getNombre(), matri.getMatricula(),
-//                matri.getCategoria(), matri.getDireccion(), matri.getLocalidad(), matri.getTelefono(),
-//                matri.getObservaciones()};
-//                
-//                //Agregar la fila a la tabla seteada con cada mascota
-//                Modelotabla.addRow(mascota);
-//            }
-//        } else {
-//            cartel("No hay datos que mostrar\nPor favor Carga un Asociado", "info", "No hay nada que mostrar");
-//        }
-//        //Agregar el modelo de la tabla a la variable Tabla. para que se haga visible
-//        tablaMatriculados.setModel(Modelotabla);
-//    }
-    
-    private void cartel(String mensaje, String tipo, String titulo){
+    private void cargarTabla() {
+        //Definir el modelo que queremos que tenga la tabla
+        DefaultTableModel Modelotabla = new DefaultTableModel() {
+            //Parámetro para que filas y col no sean editables
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };//Todo esto es la instancia de la Tabla
+
+        //Establecemos los nombres de los encabezados de las columnas
+        String titulos[] = {"Apellido", "Nombre", "Matrícula", "Categoría",
+            "Dirección", "Localidad", "Teléfono", "Observaciones"};
+        Modelotabla.setColumnIdentifiers(titulos);
+
+        //Carga de los datos desde la base de datos. Los guardamos en una lista
+        List<Matriculado> listaMatriculados = control.traerMatriculados();
+
+        //Recorrer la lista y mostrar cada uno de los objetos en la tabla
+        //Con un if chequeamos que la lista no esté vacía
+        if (listaMatriculados != null) {
+            for (Matriculado matri : listaMatriculados) {
+                //Crear un Array de tipo objeto
+                Object[] matriculado = {matri.getApellido(), matri.getNombre(), matri.getMatricula(),
+                    matri.getCategoria(), matri.getDireccion(), matri.getLocalidad(), matri.getTelefono(),
+                    matri.getObservaciones()};
+
+                //Agregar la fila a la tabla seteada con cada asociado
+                Modelotabla.addRow(matriculado);
+            }
+        } else {
+            cartel("No hay datos que mostrar\nPor favor Carga un Asociado", "info", "La lista está vacía");
+        }
+        //Agregar el modelo de la tabla a la variable Tabla. para que se haga visible
+        tablaMatriculados.setModel(Modelotabla);
+    }
+
+    private void cartel(String mensaje, String tipo, String titulo) {
         JOptionPane optionPane = new JOptionPane(mensaje);
         if (tipo.equalsIgnoreCase("info")) {
             optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
         } else {
             optionPane.setMessageType(JOptionPane.ERROR_MESSAGE);
-        }        
+        }
         JDialog dialog = optionPane.createDialog(titulo);
         dialog.setAlwaysOnTop(true);
         dialog.setVisible(true);
     }
-    
+
 }

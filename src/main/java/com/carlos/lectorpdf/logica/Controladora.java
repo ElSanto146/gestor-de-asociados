@@ -9,35 +9,21 @@ public class Controladora {
     
     ControladoraPersistencia controlPersis = new ControladoraPersistencia();
 
-
-
-//    public List<Matriculado> traerMatriculados() {
-//        return controlPersis.traerMatriculados();
-//    }
-//
-//    public void eliminar(int id_matri) {
-//        controlPersis.eliminar(id_matri);
-//    }   
-//
-//    public Matriculado buscarMatriculado(int id_matri) {
-//        return controlPersis.buscarMatriculado(id_matri);
-//    }
-
-    public void modificar(Matriculado matri, String apellido, String nombre, String matricula, String categoria, 
+    public void modificar(Matriculado matri, String apellido, String nombre, int matricula, String categoria, 
             String direccion, String localidad, String telefono, String observacion) {
         
          //Setear al objeto viejo los nuevos valores
          matri.setApellido(apellido);
          matri.setNombre(nombre);
-         //matri.setMatricula(matricula);
+         matri.setMatricula(matricula);
          matri.setCategoria(categoria);
          matri.setDireccion(direccion);
          matri.setLocalidad(localidad);
          matri.setTelefono(telefono);
          matri.setObservaciones(observacion);
          
-         //llamar al método modificar y le pasamos el nuevo matri modificado
-         //controlPersis.modificar(matri);
+         //llamar al método modificar y le pasamos el nuevo matriculado modificado
+         controlPersis.modificar(matri);
     }
 
     public void guardar(String apellido, String nombre, int matricula, String categoria, 
@@ -48,6 +34,18 @@ public class Controladora {
         controlPersis.guardar(matri);
         
         //Control de duplicidad 
+    }
+
+    public List<Matriculado> traerMatriculados() {
+        return controlPersis.traerMatriculados();
+    }
+
+    public void eliminar(int id_matri) {
+        controlPersis.eliminar(id_matri);
+    }
+
+    public Matriculado buscarMatriculado(int id_matri) {
+        return controlPersis.buscarMatriculado(id_matri);
     }
     
     

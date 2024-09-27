@@ -8,13 +8,17 @@ import javax.swing.JOptionPane;
 public class ModificarMatriculado extends javax.swing.JFrame {
 
     Controladora control = null;
-    int id_matri;
-    Matriculado matri;
+    private int id_matri;
+    private Matriculado matri;
+    private int indice;
 
-    public ModificarMatriculado(int id_matri) {
+    public ModificarMatriculado(int id_matri, int indiceFila) {
         control = new Controladora();
         initComponents();
-//        cargarForm(id_matri);
+        cargarForm(id_matri);
+         //Que no se pueda editar la matrícula
+        txtMatricula.setEditable(false);
+        this.indice = indiceFila;
     }
 
     @SuppressWarnings("unchecked")
@@ -42,9 +46,8 @@ public class ModificarMatriculado extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtObservaciones = new javax.swing.JTextArea();
         txtDireccion = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        btnGuardar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
         jTextField4.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
@@ -53,7 +56,7 @@ public class ModificarMatriculado extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 48)); // NOI18N
-        jLabel2.setText("Carga de Datos");
+        jLabel2.setText("Modificar Datos");
 
         jLabel3.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel3.setText("Apellido:");
@@ -103,9 +106,6 @@ public class ModificarMatriculado extends javax.swing.JFrame {
 
         txtDireccion.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
-        jLabel1.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        jLabel1.setText("Cargar el apellido tal cual figura en los recorridos (Sin tildes,guiones, etc)");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -149,17 +149,13 @@ public class ModificarMatriculado extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(8, 8, 8)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -194,12 +190,12 @@ public class ModificarMatriculado extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnGuardar.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        btnGuardar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Carlos\\OneDrive\\Documentos\\JAVA 2\\LectorPDF\\src\\main\\java\\com\\carlos\\lectorpdf\\IGU\\img\\floppy-disk-29x27.png")); // NOI18N
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btnModificar.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        btnModificar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Carlos\\OneDrive\\Documentos\\JAVA 2\\LectorPDF\\src\\main\\java\\com\\carlos\\lectorpdf\\IGU\\img\\floppy-disk-29x27.png")); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnModificarActionPerformed(evt);
             }
         });
 
@@ -218,7 +214,7 @@ public class ModificarMatriculado extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addComponent(btnGuardar)
+                .addComponent(btnModificar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addGap(71, 71, 71))
@@ -228,7 +224,7 @@ public class ModificarMatriculado extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
+                    .addComponent(btnModificar)
                     .addComponent(btnVolver))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -237,28 +233,28 @@ public class ModificarMatriculado extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 41, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(32, 32, 32)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(61, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addComponent(jLabel2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -279,28 +275,28 @@ public class ModificarMatriculado extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 
         //Guardamos en variables los datos de los textfield
         String apellido = txtApellido.getText();
         String nombre = txtNombre.getText();
-        String matricula = txtMatricula.getText();
+        int matricula = Integer.parseInt(txtMatricula.getText());
         String categoria = (String) cmbCategoria.getSelectedItem();
         String direccion = txtDireccion.getText();
         String localidad = txtLocalidad.getText();
         String telefono = txtTelefono.getText();
-        String observacion = txtObservaciones.getText();
+        String observacion = txtObservaciones.getText();        
 
-        //Le pasamos a la controladora el objeto mascota(lo viejo) y las variables(con las modificaciones)
+        //Le pasamos a la controladora el objeto Matriculado(lo viejo) y las variables(con las modificaciones)
         control.modificar(matri, apellido, nombre, matricula, categoria, direccion, localidad, telefono, observacion);
         
         //Cartel para "Guardado exitoso"
-        cartel("Se modificó el registro", "info", "Edición");
-        volver();
-    }//GEN-LAST:event_btnGuardarActionPerformed
+        cartel("Modificación Exitosa", "info", "Edición");
+        volver(indice);
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        volver();
+        volver(-1);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void cmbCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCategoriaActionPerformed
@@ -309,10 +305,9 @@ public class ModificarMatriculado extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> cmbCategoria;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -336,25 +331,25 @@ public class ModificarMatriculado extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 
-//    private void cargarForm(int id_matri) {
-//        this.matri = control.buscarMatriculado(id_matri);
-//        
-//        txtApellido.setText(matri.getApellido());
-//        txtNombre.setText(matri.getNombre());
-//        txtMatricula.setText(matri.getMatricula());
-//        txtDireccion.setText(matri.getDireccion());
-//        txtLocalidad.setText(matri.getLocalidad());
-//        txtTelefono.setText(matri.getTelefono());
-//        txtObservaciones.setText(matri.getObservaciones());
-//        
-//        if (matri.getCategoria().equals("1°")) {
-//            cmbCategoria.setSelectedIndex(0);
-//        } else if (matri.getCategoria().equals("2°")) {
-//            cmbCategoria.setSelectedIndex(1);
-//        } else if (matri.getCategoria().equals("3°")) {
-//            cmbCategoria.setSelectedIndex(2);
-//        }        
-//    }
+    private void cargarForm(int id_matri) {
+        this.matri = control.buscarMatriculado(id_matri);
+        
+        txtApellido.setText(matri.getApellido());
+        txtNombre.setText(matri.getNombre());
+        txtMatricula.setText(String.valueOf(matri.getMatricula()));
+        txtDireccion.setText(matri.getDireccion());
+        txtLocalidad.setText(matri.getLocalidad());
+        txtTelefono.setText(matri.getTelefono());
+        txtObservaciones.setText(matri.getObservaciones());
+        
+        if (matri.getCategoria().equals("1°")) {
+            cmbCategoria.setSelectedIndex(0);
+        } else if (matri.getCategoria().equals("2°")) {
+            cmbCategoria.setSelectedIndex(1);
+        } else if (matri.getCategoria().equals("3°")) {
+            cmbCategoria.setSelectedIndex(2);
+        }        
+    }
     
     private void cartel(String mensaje, String tipo, String titulo) {
         JOptionPane optionPane = new JOptionPane(mensaje);
@@ -368,10 +363,11 @@ public class ModificarMatriculado extends javax.swing.JFrame {
         dialog.setVisible(true);
     }
 
-    private void volver() {
-        VerAsociados panta = new VerAsociados();
+    private void volver(int indice) {
+        VerAsociados panta = new VerAsociados(indice);
         panta.setVisible(true);
         panta.setLocationRelativeTo(null);
         this.dispose();
     }
+
 }

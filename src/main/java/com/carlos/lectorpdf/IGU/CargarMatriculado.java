@@ -101,13 +101,14 @@ public class CargarMatriculado extends javax.swing.JFrame {
         jLabel10.setText("Observaciones:");
 
         txtObservaciones.setColumns(20);
+        txtObservaciones.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         txtObservaciones.setRows(5);
         jScrollPane1.setViewportView(txtObservaciones);
 
         txtDireccion.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-        jLabel1.setText("Ingresar el número de matrícula sin punto, sin guiones");
+        jLabel1.setText("Ingresar solo números");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -257,7 +258,7 @@ public class CargarMatriculado extends javax.swing.JFrame {
                         .addGap(61, 61, 61)
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
+                        .addGap(14, 14, 14)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -268,9 +269,9 @@ public class CargarMatriculado extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -294,6 +295,12 @@ public class CargarMatriculado extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
+
+            //Verificar si el campo no está vacio. De lo contrario lanza la excepción
+            if (txtMatricula.getText().isEmpty()) {
+                throw new NumberFormatException();
+            }
+
             //Guardamos en variables los datos de los textfield
             String apellido = txtApellido.getText();
             String nombre = txtNombre.getText();
@@ -308,18 +315,24 @@ public class CargarMatriculado extends javax.swing.JFrame {
             control.guardar(apellido, nombre, matricula, categoria, direccion, localidad, telefono, observacion);
 
             //Cartel para "Guardado exitoso"
-            JOptionPane optionPane = new JOptionPane("Se guardó correctamente");
-            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-            JDialog dialog = optionPane.createDialog("Guardado Exitoso");
-            dialog.setAlwaysOnTop(true);
-            dialog.setVisible(true);
+//            JOptionPane optionPane = new JOptionPane("Se guardó correctamente");
+//            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
+//            JDialog dialog = optionPane.createDialog("Guardado Exitoso");
+//            dialog.setAlwaysOnTop(true);
+//            dialog.setVisible(true);
+            
+            //Cartel OPTIMIZADO para "Guardado exitoso"
+            JOptionPane.showMessageDialog(null, "Guardado Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
 
             //Limpiar formulario
             limpiar();
         } catch (NumberFormatException ex) {
-            // Manejar la excepción si el campo está vacío o no contiene un número válido
-            JOptionPane.showMessageDialog(null, "El número de matrícula es requerido");
+            // Manejar la excepción si el campo está vacío
+            JOptionPane.showMessageDialog(null, "El número de matrícula es requerido", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
+//        Falta control de duplicidad   
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
@@ -334,7 +347,21 @@ public class CargarMatriculado extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMatriculaActionPerformed
 
     private void txtMatriculaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMatriculaFocusGained
-        verificarMatricula();
+
+        //Cuando gana el foco txtMatricula se lanza este código
+        //Es para controlar lo que el usuario puede escribir, permitiendo solo números y las teclas de borrar y retroceso
+        //Añadir un KeyListener 
+        txtMatricula.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+
+                // Verificar si es un número
+                if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_DELETE) {
+                    e.consume(); // Consumir la tecla no numérica para evitar que se ingrese
+                }
+            }
+        });
     }//GEN-LAST:event_txtMatriculaFocusGained
 
 
@@ -377,29 +404,5 @@ public class CargarMatriculado extends javax.swing.JFrame {
         txtTelefono.setText("");
         //Para los combobox se setea el indice devolviendolo al indice 0
         cmbCategoria.setSelectedIndex(0);
-    }
-
-    
-    //Se repiten una y otra vez el menjase
-    
-    private void verificarMatricula() {
-        // Añadir un KeyListener para controlar que solo se ingresen números
-        txtMatricula.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                char c = e.getKeyChar();
-
-                // Verificar si es un número
-                if (Character.isDigit(c)) {
-                    // Si es un número, permitir que se ingrese
-                } else if (c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_DELETE) {
-                    // Si es la tecla de borrar o retroceso, permitir que se ingrese
-                } else {
-                    // Si no es un número, descartar la entrada
-                    e.consume();
-                    JOptionPane.showMessageDialog(null, "Solo se permiten números.");
-                }
-            }
-        });
     }
 }
