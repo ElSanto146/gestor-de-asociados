@@ -2,6 +2,7 @@ package com.carlos.lectorpdf.logica;
 
 import com.carlos.lectorpdf.persistencia.ControladoraPersistencia;
 import java.util.List;
+import java.util.Optional;
 
 
 
@@ -46,7 +47,6 @@ public class Controladora {
 
     public Matriculado buscarMatriculado(int id_matri) {
         return controlPersis.buscarMatriculado(id_matri);
-    }
-    
+    }   
     
 }

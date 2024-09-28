@@ -193,11 +193,11 @@ public class VerAsociados extends javax.swing.JFrame {
                 cargarTabla();
             } else {
                 //aviso al usuario error al borrar
-                cartel("Selecciona un regristro para eliminar", "", "Error al Eliminar");
+                cartel("Seleccioná un asociado para eliminar.", "", "Error al Eliminar");
             }
         } else {
             //aviso al usuario error al borrar
-            cartel("La tabla está vacía", "", "Error al Eliminar");
+            cartel("Tabla vacía.\nNo hay asociados para borrar.", "", "Error al Eliminar");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -220,11 +220,11 @@ public class VerAsociados extends javax.swing.JFrame {
 
             } else {
                 //aviso al usuario que error al modificar
-                cartel("Selecciona un matriculado para modificar", "", "Error al Modificar");
+                cartel("Seleccioná un asociado para modificar.", "", "Error al Modificar");
             }
         } else {
             //aviso al usuario que error al modificar
-            cartel("Tabla Vacía.\nNo hay matriculados para modificar", "", "Error al Modificar");
+            cartel("Tabla vacía.\nNo hay asociados para modificar.", "", "Error al Modificar");
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -279,7 +279,7 @@ public class VerAsociados extends javax.swing.JFrame {
                 Modelotabla.addRow(matriculado);
             }
         } else {
-            cartel("No hay datos que mostrar\nPor favor Carga un Asociado", "info", "La lista está vacía");
+            cartel("No hay datos que mostrar.\nPor favor cargar un asociado", "info", "La lista está vacía");
         }
         //Agregar el modelo de la tabla a la variable Tabla. para que se haga visible
         tablaMatriculados.setModel(Modelotabla);

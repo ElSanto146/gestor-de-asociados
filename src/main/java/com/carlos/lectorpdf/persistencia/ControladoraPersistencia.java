@@ -3,6 +3,7 @@ package com.carlos.lectorpdf.persistencia;
 import com.carlos.lectorpdf.logica.Matriculado;
 import com.carlos.lectorpdf.persistencia.exceptions.NonexistentEntityException;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,4 +44,5 @@ public class ControladoraPersistencia {
             Logger.getLogger(ControladoraPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

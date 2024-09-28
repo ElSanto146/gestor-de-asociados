@@ -5,6 +5,7 @@ import com.carlos.lectorpdf.persistencia.exceptions.NonexistentEntityException;
 import com.carlos.lectorpdf.persistencia.exceptions.PreexistingEntityException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -124,7 +125,7 @@ public class MatriculadoJpaController implements Serializable {
         } finally {
             em.close();
         }
-    }
+    } 
 
     public int getMatriculadoCount() {
         EntityManager em = getEntityManager();

@@ -1,8 +1,11 @@
 package com.carlos.lectorpdf.IGU;
 
 import com.carlos.lectorpdf.logica.Controladora;
+import com.carlos.lectorpdf.logica.Matriculado;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -295,16 +298,26 @@ public class CargarMatriculado extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         try {
-
-            //Verificar si el campo no está vacio. De lo contrario lanza la excepción
+            //Control de campo vacio. De lo contrario lanza la excepción
             if (txtMatricula.getText().isEmpty()) {
                 throw new NumberFormatException();
+            }
+            //Si el campo txtMatricula no está vacío crear una variable para todo el bloque
+            int matricula = Integer.parseInt(txtMatricula.getText());
+            
+            //Envolver una instancia de Matriculado en un Optional para poder tratar un null y buscarlo en la bbdd
+            Optional<Matriculado> optionalMatri = Optional.ofNullable(control.buscarMatriculado(matricula));
+            
+            //Control de duplicidad. Lanza la excepción
+            if (optionalMatri.isPresent()) {//Lanzar una excepción si el matriculado existe
+                //Poner un mensaje como parámetro de la excepción
+                throw new NoSuchElementException("Ya existe un asociado con esa matrícula: " + optionalMatri.get().getMatricula()
+                        + "\nNombre: " + optionalMatri.get().getApellido()+ " " + optionalMatri.get().getNombre());
             }
 
             //Guardamos en variables los datos de los textfield
             String apellido = txtApellido.getText();
             String nombre = txtNombre.getText();
-            int matricula = Integer.parseInt(txtMatricula.getText());
             String categoria = (String) cmbCategoria.getSelectedItem();
             String direccion = txtDireccion.getText();
             String localidad = txtLocalidad.getText();
@@ -314,25 +327,20 @@ public class CargarMatriculado extends javax.swing.JFrame {
             //Pasamos a la controladora las variables
             control.guardar(apellido, nombre, matricula, categoria, direccion, localidad, telefono, observacion);
 
-            //Cartel para "Guardado exitoso"
-//            JOptionPane optionPane = new JOptionPane("Se guardó correctamente");
-//            optionPane.setMessageType(JOptionPane.INFORMATION_MESSAGE);
-//            JDialog dialog = optionPane.createDialog("Guardado Exitoso");
-//            dialog.setAlwaysOnTop(true);
-//            dialog.setVisible(true);
-            
             //Cartel OPTIMIZADO para "Guardado exitoso"
             JOptionPane.showMessageDialog(null, "Guardado Exitoso", "Información", JOptionPane.INFORMATION_MESSAGE);
 
             //Limpiar formulario
             limpiar();
+            
+            //Manejo de las excepciones
         } catch (NumberFormatException ex) {
             // Manejar la excepción si el campo está vacío
             JOptionPane.showMessageDialog(null, "El número de matrícula es requerido", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (NoSuchElementException ex) {
+            // Manejar la excepción si ya existe un asociado con el mismo número de matrícula
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Duplicado", JOptionPane.ERROR_MESSAGE);
         }
-        
-//        Falta control de duplicidad   
-        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
@@ -346,8 +354,8 @@ public class CargarMatriculado extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txtMatriculaActionPerformed
 
+    //Control para que solo se ingresen números en el campo txtMatricula
     private void txtMatriculaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMatriculaFocusGained
-
         //Cuando gana el foco txtMatricula se lanza este código
         //Es para controlar lo que el usuario puede escribir, permitiendo solo números y las teclas de borrar y retroceso
         //Añadir un KeyListener 
