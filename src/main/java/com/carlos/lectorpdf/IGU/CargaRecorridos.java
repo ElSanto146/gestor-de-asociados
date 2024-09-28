@@ -1,5 +1,7 @@
 package com.carlos.lectorpdf.IGU;
 
+import com.carlos.lectorpdf.logica.Controladora;
+import com.carlos.lectorpdf.logica.Matriculado;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -8,15 +10,13 @@ import java.util.Arrays;
 import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
-//import technology.tabula.extractors.SpreadsheetExtractionAlgorithm;
-//import technology.tabula.Table;
-//import technology.tabula.extractors.BasicExtractionAlgorithm;
 
 public class CargaRecorridos extends javax.swing.JFrame {
+    
+    Controladora control = new Controladora();
 
     public CargaRecorridos() {
         initComponents();
@@ -39,12 +39,12 @@ public class CargaRecorridos extends javax.swing.JFrame {
         txtMatriculados = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
-        jLabel1.setText("Ingrese su pdf");
+        jLabel1.setText("Ingrese el recorrido");
 
         btnBuscarPDF.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         btnBuscarPDF.setText("Buscar pdf");
@@ -79,12 +79,12 @@ public class CargaRecorridos extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel2.setText("Nombre del archivo:");
 
-        jButton1.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Carlos\\OneDrive\\Documentos\\JAVA 2\\LectorPDF\\src\\main\\java\\com\\carlos\\lectorpdf\\IGU\\img\\return-31x31.png")); // NOI18N
-        jButton1.setText("Volver");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnVolver.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        btnVolver.setIcon(new javax.swing.ImageIcon("C:\\Users\\Carlos\\OneDrive\\Documentos\\JAVA 2\\LectorPDF\\src\\main\\java\\com\\carlos\\lectorpdf\\IGU\\img\\return-31x31.png")); // NOI18N
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnVolverActionPerformed(evt);
             }
         });
 
@@ -98,15 +98,13 @@ public class CargaRecorridos extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 762, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(584, 584, 584))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnBuscarPDF)
                                 .addGap(52, 52, 52)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtMostrarNombrePDF, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtMostrarNombrePDF, javax.swing.GroupLayout.PREFERRED_SIZE, 306, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,7 +113,7 @@ public class CargaRecorridos extends javax.swing.JFrame {
                                 .addGap(39, 39, 39)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnLimpiar)
-                                    .addComponent(jButton1)))
+                                    .addComponent(btnVolver)))
                             .addComponent(jLabel3))))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
@@ -141,7 +139,7 @@ public class CargaRecorridos extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(btnLimpiar)
                         .addGap(60, 60, 60)
-                        .addComponent(jButton1)))
+                        .addComponent(btnVolver)))
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
@@ -171,7 +169,6 @@ public class CargaRecorridos extends javax.swing.JFrame {
                 // Acepta directorios y archivos que terminan en .pdf
                 return f.isDirectory() || f.getName().toLowerCase().endsWith(".pdf");
             }
-
             @Override
             public String getDescription() {
                 return "Archivos PDF (*.pdf)";
@@ -179,7 +176,7 @@ public class CargaRecorridos extends javax.swing.JFrame {
         });
 
         // Mostrar el cuadro de diálogo para abrir archivo
-        int result = fileChooser.showOpenDialog(null);  // 'null' para que aparezca en el centro de la pantalla
+        int result = fileChooser.showOpenDialog(null);//'null' para que aparezca en el centro de la pantalla
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obtener el archivo seleccionado
             File selectedFile = fileChooser.getSelectedFile();
@@ -188,17 +185,20 @@ public class CargaRecorridos extends javax.swing.JFrame {
             //Implementar el método leerMostrar
             leerMostrar(selectedFile);
         } else {
-            // Si el usuario cancela, puedes poner alguna lógica opcional aquí
+            // Si el usuario cancela, cartel de cancelación
             JOptionPane.showMessageDialog(null, "Selección de archivo cancelada", "Información", 1);
         }
         
         //BUSCAR Y MOSTRAR LOS MATRICULADOS
-        // Palabras predefinidas a buscar
-        String[] predefinedWords = {"Cabrera", "vanni", "pintos", "BORK", "escher", "milesi", "cañadas"};
-        //Se pasan las palabras a mayúsculas
-        String[] mayusculas = Arrays.stream(predefinedWords)
-                .map(String::toUpperCase)
-                .toArray(String[]::new);
+        //Carga de los datos desde la base de datos. Los guardamos en una lista
+        List<Matriculado> listaMatriculados = control.traerMatriculados();
+        
+        //Crear una lista para guardar los número de matrícula
+        List<String> numeroMatriculas = new ArrayList<>();
+        //Agregar las matrículas a la nueva lista
+        for (Matriculado matri : listaMatriculados ) {
+            numeroMatriculas.add(String.valueOf(matri.getMatricula()));
+        }
 
         // Obtener el texto del JTextArea y pasarlo a mayúsculas
         String pdfText = txtCargaPdf.getText().toUpperCase();
@@ -206,14 +206,14 @@ public class CargaRecorridos extends javax.swing.JFrame {
         // Dividir el texto en líneas
         String[] lines = pdfText.split("\n");
 
-        // Crear una lista para guardar las filas donde se encuentran las palabras
+        // Crear una lista para guardar las filas donde se encuentran las matrículas
         List<String> foundLines = new ArrayList<>();
 
-        // Buscar cada palabra en el texto
-        for (String word : mayusculas) {
+        // Buscar cada número de matrícula en el texto
+        for (String number : numeroMatriculas) {
             for (String line : lines) {
-                if (line.contains(word)) {
-                    foundLines.add(line);  // Guardar la línea completa si contiene la palabra
+                if (line.contains(number)) {
+                    foundLines.add(line);  // Guardar la línea completa si contiene el número de matrícula
                 }
             }
         }
@@ -227,9 +227,8 @@ public class CargaRecorridos extends javax.swing.JFrame {
             txtMatriculados.setText(resultado.toString());
             txtMatriculados.setCaretPosition(0);
         } else {
-            txtMatriculados.setText("No se encontraron coincidencias");
+            txtMatriculados.setText("No se encontró a ningún asociado en el recorrido");
         }
-        
     }//GEN-LAST:event_btnBuscarPDFActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -238,18 +237,18 @@ public class CargaRecorridos extends javax.swing.JFrame {
         txtMostrarNombrePDF.setText("");
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         Principal panta = new Principal();
         panta.setVisible(true);
         panta.setLocationRelativeTo(null);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnVolverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPDF;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -272,7 +271,7 @@ public class CargaRecorridos extends javax.swing.JFrame {
         }
     }
 
-     //Método para leer el contenido de un archivo PDF usando PDFBox
+    //Método para leer el contenido de un archivo PDF usando PDFBox
     private String readPDF(File selectedFile) throws IOException {
         // Cargar el archivo PDF
         PDDocument document = PDDocument.load(selectedFile);
